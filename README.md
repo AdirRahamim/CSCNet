@@ -1,4 +1,11 @@
 # CSCNet
+
+---------------------
+Improved version for the CSCNet model.
+Improved architecture detailes are describes in section 5.4/
+---------------------
+
+
 Code for the paper ["Rethinking the CSC Model for Natural Images"](https://arxiv.org/abs/1909.05742), which has been accepted to NeurIPS 2019.
 
 Instructions to reproduce our results:
