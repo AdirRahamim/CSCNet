@@ -2,7 +2,7 @@
 
 ---------------------
 Improved version for the CSCNet model.
-Improved architecture detailes are describes in section 5.4/
+Improved architecture detailes are describes in section 5.4.
 ---------------------
 
 
