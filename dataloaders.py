@@ -3,6 +3,8 @@ from torch.utils.data import Dataset, DataLoader
 from os import listdir, path
 from PIL import Image
 import torch
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 class DenoisingDataset(Dataset):

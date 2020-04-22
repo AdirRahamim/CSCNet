@@ -7,7 +7,11 @@ import argparse
 import uuid
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--stride", type=int, dest="stride", help="stride size", default=8)
+
+parser.add_argument("--stride1", type=int, dest="stride1", help="stride size", default=8)
+parser.add_argument("--stride2", type=int, dest="stride2", help="stride size", default=7)
+parser.add_argument("--stride3", type=int, dest="stride3", help="stride size", default=9)
+
 parser.add_argument("--num_filters", type=int, dest="num_filters", help="Number of filters", default=175)
 parser.add_argument("--kernel_size", type=int, dest="kernel_size", help="The size of the kernel", default=11)
 parser.add_argument("--threshold", type=float, dest="threshold", help="Init threshold value", default=0.01)
@@ -24,11 +28,14 @@ parser.add_argument("--model_name", type=str, dest="model_name", help="The name 
 parser.add_argument("--data_path", type=str, dest="data_path", help="Path to the dir containing the training and testing datasets.", default="./datasets/")
 args = parser.parse_args()
 
-
-test_path = [f'{args.data_path}/BSD68/']
-train_path = [f'{args.data_path}/CBSD432/',f'{args.data_path}/waterloo/']
+test_path = [f'{args.data_path}BSD68/']
+train_path = [f'{args.data_path}CBSD432/',f'{args.data_path}waterloo/']
 kernel_size = args.kernel_size
-stride = args.stride
+
+stride1 = args.stride1
+stride2 = args.stride2
+stride3 = args.stride3
+
 num_filters = args.num_filters
 lr = args.lr
 eps = args.eps
@@ -40,7 +47,7 @@ num_epochs = args.num_epochs
 noise_std = args.noise_level / 255
 threshold = args.threshold
 
-params = ListaParams(kernel_size, num_filters, stride, unfoldings)
+params = ListaParams(kernel_size, num_filters, stride1, stride2,stride3, unfoldings)
 loaders = dataloaders.get_dataloaders(train_path, test_path, patch_size, 1)
 model = ConvLista_T(params).cuda()
 optimizer = torch.optim.Adam(model.parameters(), lr=lr, eps=eps)
@@ -53,7 +60,10 @@ guid = args.model_name if args.model_name is not None else uuid.uuid4()
 config_dict = {
     'uuid': guid,
     'kernel_size':kernel_size,
-    'stride': stride,
+    'stride1': stride1,
+    'stride2': stride2,
+    'stride3': stride3,
+
     'num_filters': num_filters,
     'lr':lr,
     'unfoldings': unfoldings,

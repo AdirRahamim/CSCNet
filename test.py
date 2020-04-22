@@ -9,7 +9,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_dir", type=str, dest="root_folder", help="The trained model's dir path", default='./trained_models')
-parser.add_argument("--model_name", type=str, dest="uuid", help="The model's name", required=True)
+parser.add_argument("--model_name", type=str, dest="uuid", help="The model's name", default='sigma_25')
 parser.add_argument("--data_path", type=str, dest="data_path", help="Path to the dir containing the training and testing datasets.", default="./datasets/")
 args = parser.parse_args()
 
@@ -20,13 +20,13 @@ config_path = join(args.root_folder, config_filename)
 with open(config_path) as conf_file:
     conf = conf_file.read()
 conf = eval(conf)
-params = modules.ListaParams(conf['kernel_size'], conf['num_filters'], conf['stride'], conf['unfoldings'])
+params = modules.ListaParams(conf['kernel_size'], conf['num_filters'], conf['stride1'],conf['stride2'],conf['stride3'], conf['unfoldings'])
 model = modules.ConvLista_T(params)
 model.load_state_dict(torch.load(join(args.root_folder, model_filename)))  # cpu is good enough for testing
 
-test_path = [f'{args.data_path}/Set12/']
+test_path = [f'{args.data_path}/BSD68/']
 # test_path = ['../../../../images/BSD68/']
-loaders = dataloaders.get_dataloaders([], test_path, 128, 1)
+loaders = dataloaders.get_dataloaders(test_path, test_path, 128, 1)
 loaders['test'].dataset.verbose = True
 model.eval()   # Set model to evaluate mode
 model.cuda()
